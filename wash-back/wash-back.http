@@ -1,0 +1,6 @@
+@wash_back_HostAddress = http://localhost:5268
+
+GET {{wash_back_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
