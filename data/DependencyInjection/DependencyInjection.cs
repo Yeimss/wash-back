@@ -1,8 +1,11 @@
-﻿//using core.in;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using data.Models.Context;
+using core.Interfaces.Auth;
+using data.Repositories.Auth;
+using core.Interfaces.Services;
+using data.Repositories.Services;
 
 namespace data.DependencyInjection
 {
@@ -16,14 +19,10 @@ namespace data.DependencyInjection
                 options.UseSqlServer(connectionString));
 
             // Registrar implementaciones concretas de interfaces
-            //services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            //services.AddScoped<INotificador, NotificadorSql>(); // otro ejemplo
+            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IServicesRepository, ServicesRepository>();
 
             return services;
         }
     }
-}
-
-{
-}
 }
