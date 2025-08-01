@@ -7,7 +7,7 @@ using data.Repositories.Auth;
 using core.Interfaces.Services;
 using data.Repositories.Services;
 
-namespace data.DependencyInjection
+namespace data.Infrastructure
 {
     public static class DependencyInjection
     {
@@ -18,9 +18,12 @@ namespace data.DependencyInjection
             services.AddDbContext<LavaderoBDContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            // Registrar implementaciones concretas de interfaces
+            services.Configure<AuthSettings>(configuration.GetSection("Jwt"));
+
+
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IServicesRepository, ServicesRepository>();
+            services.AddScoped<IJwtGenerator, JwtGenerator>();
 
             return services;
         }
