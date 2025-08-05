@@ -1,4 +1,5 @@
 ﻿using core.Entities.Usuario;
+using core.Entities.Utils;
 using core.Interfaces.Repositories.Auth;
 using core.Interfaces.Services.IAuthService;
 using DTOs.Auth;
@@ -13,15 +14,23 @@ namespace core.Services.Auth
     public class AuthService : IAuthService
     {
         private readonly IAuthRepository _authRepository;
-        public AuthService(IAuthRepository authRepository)
+        private readonly IJwtGenerator _jwtGenerator;
+        public AuthService(IAuthRepository authRepository, IJwtGenerator jwtGenerator)
         {
             _authRepository = authRepository;
+            _jwtGenerator = jwtGenerator;
         }
 
-        public async Task<Usuario> GetUsuarioLogeado(LoginUserDto usuario)
+        public async Task<string?> Login(LoginUserDto usuario)
         {
             Usuario user = await _authRepository.GetUser(usuario.document);
-            if
+            if (!user.password.Equals(StringHelper.ComputeSha256(usuario.password)))
+            {
+                return null;
+            }
+
+            string? token = _jwtGenerator.GenerateToken(user);
+            return token;
         }
     }
 }

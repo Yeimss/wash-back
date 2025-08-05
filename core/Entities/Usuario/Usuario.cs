@@ -15,5 +15,6 @@ namespace core.Entities.Usuario
         public string enterprice { get; set; } 
         public int? idRol { get; set; }
         public string rol {  get; set; }
+        public string password {  get; set; }
     }
 }

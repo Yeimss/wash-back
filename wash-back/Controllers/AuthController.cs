@@ -1,7 +1,9 @@
 ﻿using core.Interfaces.Repositories.Auth;
+using core.Interfaces.Services.IAuthService;
 using DTOs.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using wash_back.DTOs.Auth;
 
 namespace wash_back.Controllers
@@ -11,16 +13,21 @@ namespace wash_back.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthRepository _repository;
-        public AuthController(IAuthRepository repository)
+        private readonly IAuthService _service;
+        public AuthController(IAuthService service)
         {
-            _repository = repository;
+            _service = service;
         }
         [HttpPost("Login")]
-        public IActionResult Login([FromBody] LoginUserDto user)
+        public async Task<IActionResult> Login([FromBody] LoginUserDto user)
         {
-
-            return Ok(user);
+            string? token = await _service.Login(user);
+            return Ok(new
+            {
+                token = token,
+                message = !token.IsNullOrEmpty() ? "Se inició sesión con exito" : "Credenciales incorrectas",
+                success = !token.IsNullOrEmpty() ? true : false
+            });
         }
         [Authorize(Roles = "1")]
         [HttpPost("CreateUser")]

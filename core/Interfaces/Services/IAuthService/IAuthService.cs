@@ -5,6 +5,6 @@ namespace core.Interfaces.Services.IAuthService
 {
     public interface IAuthService
     {
-        Task<Usuario> GetUsuarioLogeado(LoginUserDto usuario); 
+        Task<string?> Login(LoginUserDto usuario); 
     }
 }
