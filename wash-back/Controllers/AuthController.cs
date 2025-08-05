@@ -1,4 +1,5 @@
-﻿using core.Interfaces.Auth;
+﻿using core.Interfaces.Repositories.Auth;
+using DTOs.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using wash_back.DTOs.Auth;
@@ -16,8 +17,9 @@ namespace wash_back.Controllers
             _repository = repository;
         }
         [HttpPost("Login")]
-        public IActionResult Login([FromBody] LoginUser user)
+        public IActionResult Login([FromBody] LoginUserDto user)
         {
+
             return Ok(user);
         }
         [Authorize(Roles = "1")]

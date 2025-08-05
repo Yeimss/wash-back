@@ -10,4 +10,13 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DTOs\DTOs.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\Services\IClientService\" />
+    <Folder Include="Interfaces\Services\IServicesService\" />
+  </ItemGroup>
+
 </Project>

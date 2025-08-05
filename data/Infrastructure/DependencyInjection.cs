@@ -2,10 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using data.Models.Context;
-using core.Interfaces.Auth;
 using data.Repositories.Auth;
-using core.Interfaces.Services;
 using data.Repositories.Services;
+using core.Interfaces.Repositories.Services;
+using core.Interfaces.Repositories.Auth;
 
 namespace data.Infrastructure
 {

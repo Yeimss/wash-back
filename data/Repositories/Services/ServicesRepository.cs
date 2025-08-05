@@ -1,4 +1,4 @@
-﻿using core.Interfaces.Services;
+﻿using core.Interfaces.Repositories.Services;
 using data.Models.Context;
 
 namespace data.Repositories.Services
