@@ -4,7 +4,6 @@ using DTOs.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using wash_back.DTOs.Auth;
 
 namespace wash_back.Controllers
 {
