@@ -2,14 +2,15 @@
 using core.Interfaces.Services.IAuthService;
 using DTOs.Auth;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace wash_back.Controllers
 {
-    [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
+    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _service;
@@ -28,12 +29,27 @@ namespace wash_back.Controllers
                 success = !token.IsNullOrEmpty() ? true : false
             });
         }
-        //[Authorize(Roles = "1")]
+        [AllowAnonymous]
         [HttpPost("CreateUser")]
-        public async Task<IActionResult> CreateUser()
+        [Authorize(Roles = "1")]
+        public async Task<IActionResult> CreateUser(UserDto user)
         {
+            bool creado = await _service.CreateUser(user);
 
-            return Ok("Siuuuuuuuuuuuu");
+            if (!creado)
+            {
+                return BadRequest(new
+                {
+                    message = "No se ha podido crear el usuario",
+                    success = false,
+                    status = 400
+                });
+            }
+            return StatusCode(201, new {
+                message = "Usuario creado correctamente",
+                success = true,
+                status = 201
+            });
         }
 
     }

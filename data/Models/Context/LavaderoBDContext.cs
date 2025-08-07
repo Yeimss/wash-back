@@ -6,6 +6,10 @@ namespace data.Models.Context;
 
 public partial class LavaderoBDContext : DbContext
 {
+    public LavaderoBDContext()
+    {
+    }
+
     public LavaderoBDContext(DbContextOptions<LavaderoBDContext> options)
         : base(options)
     {
@@ -97,8 +101,10 @@ public partial class LavaderoBDContext : DbContext
                 .HasColumnType("smalldatetime");
             entity.Property(e => e.PasswordHash).HasMaxLength(255);
             entity.Property(e => e.document).HasMaxLength(50);
+            entity.Property(e => e.email).HasMaxLength(100);
             entity.Property(e => e.lastName).HasMaxLength(50);
             entity.Property(e => e.name).HasMaxLength(50);
+            entity.Property(e => e.phone).HasMaxLength(20);
 
             entity.HasOne(d => d.idEnterpriceNavigation).WithMany(p => p.tbl_users)
                 .HasForeignKey(d => d.idEnterprice)

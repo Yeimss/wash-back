@@ -5,6 +5,7 @@ namespace core.Interfaces.Services.IAuthService
 {
     public interface IAuthService
     {
-        Task<string?> Login(LoginUserDto usuario); 
+        Task<string?> Login(LoginUserDto usuario);
+        Task<bool> CreateUser(UserDto user); 
     }
 }

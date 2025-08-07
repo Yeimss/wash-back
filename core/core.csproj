@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\Services\IClientService\" />
     <Folder Include="Interfaces\Services\IServicesService\" />
   </ItemGroup>
 

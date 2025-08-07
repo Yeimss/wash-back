@@ -6,6 +6,8 @@ using data.Repositories.Auth;
 using data.Repositories.Services;
 using core.Interfaces.Repositories.Services;
 using core.Interfaces.Repositories.Auth;
+using core.Interfaces.Repositories.Client;
+using data.Repositories.Client;
 
 namespace data.Infrastructure
 {
@@ -23,6 +25,7 @@ namespace data.Infrastructure
 
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IServicesRepository, ServicesRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IJwtGenerator, JwtGenerator>();
 
             return services;

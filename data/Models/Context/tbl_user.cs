@@ -21,6 +21,10 @@ public partial class tbl_user
 
     public DateTime? FechaRegistro { get; set; }
 
+    public string? email { get; set; }
+
+    public string? phone { get; set; }
+
     public virtual tbl_enterprice? idEnterpriceNavigation { get; set; }
 
     public virtual tbl_rol? idRolNavigation { get; set; }
