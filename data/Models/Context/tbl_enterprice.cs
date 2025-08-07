@@ -15,6 +15,8 @@ public partial class tbl_enterprice
 
     public bool? sendSMS { get; set; }
 
+    public virtual ICollection<tbl_client> tbl_clients { get; set; } = new List<tbl_client>();
+
     public virtual ICollection<tbl_service> tbl_services { get; set; } = new List<tbl_service>();
 
     public virtual ICollection<tbl_user> tbl_users { get; set; } = new List<tbl_user>();

@@ -7,5 +7,7 @@
         public string phone { get; set; }
         public string email { get; set; }
         public string placa { get; set; }
+        public string empresa { get; set; }
+        public int idEmpresa { get; set; }
     }
 }

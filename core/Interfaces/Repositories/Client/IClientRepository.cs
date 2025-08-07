@@ -11,5 +11,6 @@ namespace core.Interfaces.Repositories.Client
     public interface IClientRepository
     {
         Task<List<Cliente>> GetClient(ClientFilterDto clientFilters, int? idEnterprice);
+        Task<int> InsertClient(ClientDto client);
     }
 }

@@ -16,13 +16,60 @@ namespace data.Repositories.Client
         }
         public async Task<List<Cliente>> GetClient(ClientFilterDto clientFilters, int? idEnterprice)
         {
-            //List<tbl_client> clientes= await _context.tbl_clients
-            //    .Where(r => idEnterprice != 0 );
-            //if (cliente == null)
-            //{
-            //    return null;
-            //}
-            return null;
+            var query = _context.tbl_clients.AsQueryable();
+
+            if (idEnterprice != null && idEnterprice != 0)
+            {
+                query = query.Where(c => c.idEnterprice == idEnterprice);
+            }
+
+            if (clientFilters.Id != 0)
+            {
+                query = query.Where(c => c.id == clientFilters.Id);
+            }
+
+            if (!string.IsNullOrWhiteSpace(clientFilters.Phone))
+            {
+                query = query.Where(c => c.phone.Contains(clientFilters.Phone));
+            }
+
+            if (!string.IsNullOrWhiteSpace(clientFilters.Placa))
+            {
+                query = query.Where(c => c.placa.Contains(clientFilters.Placa));
+            }
+
+
+            var clientesDb = await query
+                .Include(c => c.idEnterpriceNavigation)
+                .ToListAsync();
+
+            var clientes = clientesDb.Select(c => new Cliente
+            {
+                id = c.id,
+                name = c.name,
+                email = c.email,
+                phone = c.phone,
+                placa = c.placa,
+                idEmpresa = c.idEnterprice,
+                empresa = c.idEnterpriceNavigation?.enterprice
+                
+            }).ToList();
+
+            return clientes;
+        }
+        public async Task<int> InsertClient(ClientDto client)
+        {
+            tbl_client cliente = new tbl_client
+            {
+                name = client.Name,
+                email = client.Email,
+                phone = client.Phone,
+                placa = client.Placa,
+                idEnterprice = client.IdEnterprice
+            };
+            await _context.AddAsync(cliente);
+            var res = await _context.SaveChangesAsync();
+            return res;
         }
     }
 }

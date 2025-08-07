@@ -23,5 +23,11 @@ namespace core.Services.Client
             List<Cliente> clientes = await _clientRepository.GetClient(clientFilter, idEnterpriceClaim);
             return clientes;
         }
+
+        public async Task<bool> InsertClient(ClientDto client)
+        {
+            int cantAfectada = await _clientRepository.InsertClient(client);
+            return cantAfectada > 0;
+        }
     }
 }
