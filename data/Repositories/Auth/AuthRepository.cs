@@ -57,10 +57,11 @@ namespace data.Repositories.Auth
                 {
                     document = user.Document,
                     name = user.Name,
+                    lastName = user.LastName,
                     email = user.Email,
                     phone = user.Phone,
                     PasswordHash = user.Password,
-                    idEnterprice = user.idEnterprice,
+                    idEnterprice = user.idEnterprice == 0 ? null : user.idEnterprice,
                     idRol = user.idRol,
                 };
                 _context.tbl_users.Add(usuario);

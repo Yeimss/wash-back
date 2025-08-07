@@ -26,8 +26,8 @@ namespace data.Repositories.Auth
             new Claim(ClaimTypes.Role, user.idRol.ToString()!),
             new Claim(ClaimTypes.Email, user.email),
             new Claim(ClaimTypes.MobilePhone, user.phone),
-            new Claim("empresa", user.enterprice),
-            new Claim("idEmpresa", user.idEnterprice.ToString()),
+            new Claim("empresa", user.enterprice ?? "no aplica"),
+            new Claim("idEmpresa", user.idEnterprice.ToString() ?? "0"),
             new Claim("rolName", user.rol),
             new Claim("EmpresaImage", user.rol)
         };

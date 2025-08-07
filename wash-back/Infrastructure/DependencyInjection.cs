@@ -23,7 +23,7 @@ namespace wash_back.Infrastructure
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(configuration["Jwt:key"]!)),
+                        Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]!)),
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateLifetime = true,
