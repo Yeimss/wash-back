@@ -28,10 +28,11 @@ namespace wash_back.Controllers
                 success = !token.IsNullOrEmpty() ? true : false
             });
         }
-        [Authorize(Roles = "1")]
+        //[Authorize(Roles = "1")]
         [HttpPost("CreateUser")]
         public async Task<IActionResult> CreateUser()
         {
+
             return Ok("Siuuuuuuuuuuuu");
         }
 
