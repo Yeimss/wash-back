@@ -3,11 +3,6 @@ using core.Entities.Utils;
 using core.Interfaces.Repositories.Auth;
 using core.Interfaces.Services.IAuthService;
 using DTOs.Auth;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Services.Auth
 {
@@ -31,6 +26,16 @@ namespace core.Services.Auth
 
             string? token = _jwtGenerator.GenerateToken(user);
             return token;
+        }
+        public async Task<bool> CreateUser(UserDto user)
+        {
+            user.Password = StringHelper.ComputeSha256(user.Password);
+            int createdUser = await _authRepository.InsertUser(user);
+            if(createdUser == 0)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

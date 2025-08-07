@@ -2,6 +2,7 @@
 using core.Entities.Utils;
 using core.Interfaces.Repositories.Auth;
 using data.Models.Context;
+using DTOs.Auth;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -35,7 +36,9 @@ namespace data.Repositories.Auth
                         idEnterprice = usuario.idEnterprice,
                         idRol = usuario.idRol,
                         rol = usuario.idRolNavigation?.rol,
-                        password = usuario.PasswordHash
+                        password = usuario.PasswordHash,
+                        phone = usuario.phone,
+                        email = usuario.email
                     };
                 }
                 return null;
@@ -43,6 +46,29 @@ namespace data.Repositories.Auth
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+        public async Task<int> InsertUser(UserDto user)
+        {
+            try
+            {
+                tbl_user usuario = new tbl_user
+                {
+                    document = user.Document,
+                    name = user.Name,
+                    email = user.Email,
+                    phone = user.Phone,
+                    PasswordHash = user.Password,
+                    idEnterprice = user.idEnterprice,
+                    idRol = user.idRol,
+                };
+                _context.tbl_users.Add(usuario);
+                var result = await _context.SaveChangesAsync();
+                return result;
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

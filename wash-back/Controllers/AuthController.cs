@@ -2,6 +2,7 @@
 using core.Interfaces.Services.IAuthService;
 using DTOs.Auth;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -30,10 +31,24 @@ namespace wash_back.Controllers
         }
         //[Authorize(Roles = "1")]
         [HttpPost("CreateUser")]
-        public async Task<IActionResult> CreateUser()
+        public async Task<IActionResult> CreateUser(UserDto user)
         {
+            bool creado = await _service.CreateUser(user);
 
-            return Ok("Siuuuuuuuuuuuu");
+            if (!creado)
+            {
+                return BadRequest(new
+                {
+                    message = "No se ha podido crear el usuario",
+                    success = false,
+                    status = 400
+                });
+            }
+            return StatusCode(201, new {
+                message = "Usuario creado correctamente",
+                success = true,
+                status = 201
+            });
         }
 
     }
