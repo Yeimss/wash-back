@@ -29,6 +29,10 @@ public partial class LavaderoBDContext : DbContext
 
     public virtual DbSet<tbl_washed> tbl_washeds { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=YEIMS;Initial Catalog=DB_Lavadero;User=sa;Password=aaa1234;TrustServerCertificate=True;");
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<tbl_client>(entity =>
@@ -41,6 +45,11 @@ public partial class LavaderoBDContext : DbContext
             entity.Property(e => e.name).HasMaxLength(100);
             entity.Property(e => e.phone).HasMaxLength(10);
             entity.Property(e => e.placa).HasMaxLength(10);
+
+            entity.HasOne(d => d.idEnterpriceNavigation).WithMany(p => p.tbl_clients)
+                .HasForeignKey(d => d.idEnterprice)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_client_enterprice");
         });
 
         modelBuilder.Entity<tbl_enterprice>(entity =>

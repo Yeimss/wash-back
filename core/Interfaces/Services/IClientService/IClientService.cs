@@ -1,4 +1,6 @@
-﻿using System;
+﻿using core.Entities.Cliente;
+using DTOs.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,7 @@ namespace core.Interfaces.Services.IClientService
 {
     public interface IClientService
     {
+        Task<List<Cliente>> GetClient(ClientFilterDto clientFilter, int? idEnterpriceClaim);
+        Task<bool> InsertClient(ClientDto client);
     }
 }

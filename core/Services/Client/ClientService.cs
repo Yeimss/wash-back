@@ -1,5 +1,7 @@
-﻿using core.Interfaces.Repositories.Client;
+﻿using core.Entities.Cliente;
+using core.Interfaces.Repositories.Client;
 using core.Interfaces.Services.IClientService;
+using DTOs.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,18 @@ namespace core.Services.Client
         public ClientService(IClientRepository clientRepository)
         {
             _clientRepository = clientRepository;
+        }
+
+        public async Task<List<Cliente>> GetClient(ClientFilterDto clientFilter, int? idEnterpriceClaim)
+        {
+            List<Cliente> clientes = await _clientRepository.GetClient(clientFilter, idEnterpriceClaim);
+            return clientes;
+        }
+
+        public async Task<bool> InsertClient(ClientDto client)
+        {
+            int cantAfectada = await _clientRepository.InsertClient(client);
+            return cantAfectada > 0;
         }
     }
 }

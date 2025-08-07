@@ -1,7 +1,11 @@
-﻿using core.Interfaces.Repositories.Client;
+﻿using core.Entities.Cliente;
+using core.Interfaces.Repositories.Client;
 using core.Interfaces.Services.IClientService;
+using DTOs.Client;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.InteropServices;
+using System.Security.Claims;
 
 namespace wash_back.Controllers
 {
@@ -16,14 +20,63 @@ namespace wash_back.Controllers
             _clientService = service;
         }
         [HttpGet("Get/{id}")]
-        public async Task<IActionResult> GetClient(int id)
+        public async Task<IActionResult> GetClient([FromBody] ClientFilterDto clientFilters)
         {
-            return Ok("nashe"); 
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            var idEnterpriceClaim = User.FindFirst("idEmpresa")?.Value;
+
+            if (role != "1" && string.IsNullOrEmpty(idEnterpriceClaim))
+            {
+                return Unauthorized(new
+                {
+                    message = "Usuario sin empresa",
+                    status = 401,
+                    success = false,
+                });
+            }
+
+            idEnterpriceClaim = role == "1" ? "0" : idEnterpriceClaim;
+            List<Cliente> clientes = await _clientService.GetClient(clientFilters, int.Parse(idEnterpriceClaim));
+            if (clientes.Any())
+            {
+                return Ok(new
+                {
+                    data = clientes,
+                    message = "Consulta realizada correctamente",
+                    success = true,
+                    status = 200
+                });
+            }
+            else
+            {
+                return StatusCode(204, new
+                {
+                    data = clientes,
+                    message = "Consulta realizada correctamente",
+                    success = true,
+                    status = 204
+                });
+            }
         }
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        [HttpPost("Insert")]
+        public async Task<IActionResult> Insert([FromBody] ClientDto client)
         {
-            return Ok("perron");
+            bool success = await _clientService.InsertClient(client);
+            if (!success)
+            {
+                return BadRequest(new
+                {
+                    message = "No se ha insertado el registro",
+                    success = success,
+                    status = 400
+                });
+            }
+            return Ok(new
+            {
+                message = "Cliente insertado correctamente",
+                success = success,
+                status = 201
+            });
         }
     }
 }
