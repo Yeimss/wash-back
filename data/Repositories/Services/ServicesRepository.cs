@@ -1,5 +1,7 @@
-﻿using core.Interfaces.Services;
+﻿using core.Entities.Services;
+using core.Interfaces.Repositories.Services;
 using data.Models.Context;
+using DTOs.Service;
 
 namespace data.Repositories.Services
 {
@@ -10,6 +12,20 @@ namespace data.Repositories.Services
         {
             _context = context;
         }
-        
+
+        public Task<Service> GetService(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Service> GetServices()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Service> InsertService(ServiceDto service)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

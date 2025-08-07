@@ -1,5 +1,5 @@
 ﻿using core.Entities.Usuario;
-using core.Interfaces.Auth;
+using core.Interfaces.Repositories.Auth;
 using data.Infrastructure;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

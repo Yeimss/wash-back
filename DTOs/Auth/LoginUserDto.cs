@@ -1,6 +1,6 @@
-﻿namespace wash_back.DTOs.Auth
+﻿namespace DTOs.Auth
 {
-    public class LoginUser
+    public class LoginUserDto
     {
         public string document { get; set; }
         public string password { get; set; }

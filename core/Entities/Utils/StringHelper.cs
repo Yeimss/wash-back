@@ -3,7 +3,7 @@ using System.Text;
 
 namespace core.Entities.Utils
 {
-    internal class StringHelper
+    public class StringHelper
     {
         public static string ComputeSha256(string input)
         {

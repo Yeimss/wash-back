@@ -11,9 +11,10 @@ namespace core.Entities.Usuario
         public int id { get; set; }
         public string document { get; set; }
         public string name { get; set; }
-        public int idEnterprice { get; set; }
+        public int? idEnterprice { get; set; }
         public string enterprice { get; set; } 
-        public int idRol { get; set; }
+        public int? idRol { get; set; }
         public string rol {  get; set; }
+        public string password {  get; set; }
     }
 }
