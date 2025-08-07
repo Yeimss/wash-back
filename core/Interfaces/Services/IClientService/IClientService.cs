@@ -1,16 +1,14 @@
 ﻿using core.Entities.Cliente;
 using DTOs.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DTOs.Result;
+using System.Security.Claims;
 
 namespace core.Interfaces.Services.IClientService
 {
     public interface IClientService
     {
-        Task<List<Cliente>> GetClient(ClientFilterDto clientFilter, int? idEnterpriceClaim);
-        Task<bool> InsertClient(ClientDto client);
+        Task<ResultDto> GetClient(ClientFilterDto clientFilters, IEnumerable<Claim> claims);
+        Task<ResultDto> InsertClient(ClientDto client, IEnumerable<Claim> claims);
+        Task<ResultDto> UpdateClient(ClientUpdateDto client, IEnumerable<Claim> claims);
     }
 }

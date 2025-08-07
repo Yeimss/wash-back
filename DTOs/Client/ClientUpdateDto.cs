@@ -2,8 +2,9 @@
 
 namespace DTOs.Client
 {
-    public class ClientDto
+    public class ClientUpdateDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         [MaxLength(10)]
         public string Phone { get; set; }

@@ -23,7 +23,7 @@ namespace data.Repositories.Client
                 query = query.Where(c => c.idEnterprice == idEnterprice);
             }
 
-            if (clientFilters.Id != 0)
+            if (clientFilters.Id != 0 && clientFilters.Id != null)
             {
                 query = query.Where(c => c.id == clientFilters.Id);
             }
@@ -35,7 +35,7 @@ namespace data.Repositories.Client
 
             if (!string.IsNullOrWhiteSpace(clientFilters.Placa))
             {
-                query = query.Where(c => c.placa.Contains(clientFilters.Placa));
+                query = query.Where(c => c.placa.ToUpper().Contains(clientFilters.Placa));
             }
 
 
@@ -70,6 +70,19 @@ namespace data.Repositories.Client
             await _context.AddAsync(cliente);
             var res = await _context.SaveChangesAsync();
             return res;
+        }
+        public async Task<bool> UpdateClient() 
+        public async Task<bool> DeleteClient(int id)
+        {
+            var cliente = await _context.tbl_clients.FindAsync(id);
+            if(cliente == null)
+            {
+                return false;
+            }
+
+            _context.tbl_clients.Remove(cliente);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }
