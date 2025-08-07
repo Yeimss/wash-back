@@ -1,10 +1,9 @@
-﻿using core.Interfaces.Repositories.Client;
+﻿using core.Entities.Cliente;
+using core.Interfaces.Repositories.Client;
 using data.Models.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DTOs.Client;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace data.Repositories.Client
 {
@@ -15,6 +14,15 @@ namespace data.Repositories.Client
         {
             _context = context;
         }
-
+        public async Task<List<Cliente>> GetClient(ClientFilterDto clientFilters, int? idEnterprice)
+        {
+            //List<tbl_client> clientes= await _context.tbl_clients
+            //    .Where(r => idEnterprice != 0 );
+            //if (cliente == null)
+            //{
+            //    return null;
+            //}
+            return null;
+        }
     }
 }
