@@ -71,7 +71,23 @@ namespace data.Repositories.Client
             var res = await _context.SaveChangesAsync();
             return res;
         }
-        public async Task<bool> UpdateClient() 
+        public async Task<bool> UpdateClient(ClientUpdateDto client)
+        {
+            var cliente = await _context.tbl_clients.FindAsync(client.Id);
+            if (cliente == null)
+            {
+                return false;
+            }
+            cliente.email = client.Email;
+            cliente.phone = client.Phone;
+            cliente.placa = client.Placa;
+            cliente.name = client.Name;
+            cliente.idEnterprice = client.IdEnterprice;
+
+            _context.tbl_clients.Update(cliente);
+            await _context.SaveChangesAsync();
+            return true;
+        } 
         public async Task<bool> DeleteClient(int id)
         {
             var cliente = await _context.tbl_clients.FindAsync(id);

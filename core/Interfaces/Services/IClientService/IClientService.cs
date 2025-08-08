@@ -10,5 +10,6 @@ namespace core.Interfaces.Services.IClientService
         Task<ResultDto> GetClient(ClientFilterDto clientFilters, IEnumerable<Claim> claims);
         Task<ResultDto> InsertClient(ClientDto client, IEnumerable<Claim> claims);
         Task<ResultDto> UpdateClient(ClientUpdateDto client, IEnumerable<Claim> claims);
+        Task<ResultDto> DeleteClient(int id);
     }
 }

@@ -42,5 +42,12 @@ namespace wash_back.Controllers
             var result = await _clientService.UpdateClient(client, claims);
             return StatusCode(result.StatusCode, result);
         }
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var claims = User.Claims;
+            var result = await _clientService.DeleteClient(id);
+            return StatusCode(result.StatusCode, result);
+        }
     }
 }
