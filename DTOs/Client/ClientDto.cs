@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DTOs.Client
 {
     public class ClientDto
     {
         public string Name { get; set; }
+        [MaxLength(10)]
         public string Phone { get; set; }
         public string Email { get; set; }
+        [MaxLength(6)]
         public string Placa { get; set; }
         public int IdEnterprice { get; set; }
     }

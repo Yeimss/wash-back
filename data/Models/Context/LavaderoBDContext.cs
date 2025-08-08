@@ -17,6 +17,8 @@ public partial class LavaderoBDContext : DbContext
 
     public virtual DbSet<tbl_client> tbl_clients { get; set; }
 
+    public virtual DbSet<tbl_encargado> tbl_encargados { get; set; }
+
     public virtual DbSet<tbl_enterprice> tbl_enterprices { get; set; }
 
     public virtual DbSet<tbl_rol> tbl_rols { get; set; }
@@ -29,10 +31,6 @@ public partial class LavaderoBDContext : DbContext
 
     public virtual DbSet<tbl_washed> tbl_washeds { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=YEIMS;Initial Catalog=DB_Lavadero;User=sa;Password=aaa1234;TrustServerCertificate=True;");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<tbl_client>(entity =>
@@ -40,6 +38,8 @@ public partial class LavaderoBDContext : DbContext
             entity.HasKey(e => e.id).HasName("PK__tbl_clie__3213E83F0914F596");
 
             entity.ToTable("tbl_client");
+
+            entity.HasIndex(e => new { e.placa, e.idEnterprice }, "UQ_placa_enterprice").IsUnique();
 
             entity.Property(e => e.email).HasMaxLength(100);
             entity.Property(e => e.name).HasMaxLength(100);
@@ -50,6 +50,19 @@ public partial class LavaderoBDContext : DbContext
                 .HasForeignKey(d => d.idEnterprice)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_client_enterprice");
+        });
+
+        modelBuilder.Entity<tbl_encargado>(entity =>
+        {
+            entity.HasKey(e => e.id).HasName("PK__tbl_enca__3213E83FF83028AB");
+
+            entity.ToTable("tbl_encargado");
+
+            entity.Property(e => e.name).HasMaxLength(100);
+
+            entity.HasOne(d => d.idEnterpriceNavigation).WithMany(p => p.tbl_encargados)
+                .HasForeignKey(d => d.idEnterprice)
+                .HasConstraintName("FK_encargado_enterprice");
         });
 
         modelBuilder.Entity<tbl_enterprice>(entity =>
@@ -134,6 +147,10 @@ public partial class LavaderoBDContext : DbContext
             entity.HasOne(d => d.idClientNavigation).WithMany(p => p.tbl_washeds)
                 .HasForeignKey(d => d.idClient)
                 .HasConstraintName("FK_washed_client");
+
+            entity.HasOne(d => d.idEncargadoNavigation).WithMany(p => p.tbl_washeds)
+                .HasForeignKey(d => d.idEncargado)
+                .HasConstraintName("FK_wash_encargado");
 
             entity.HasOne(d => d.idEnterpriceNavigation).WithMany(p => p.tbl_washeds)
                 .HasForeignKey(d => d.idEnterprice)

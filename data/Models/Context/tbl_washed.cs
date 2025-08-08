@@ -13,7 +13,11 @@ public partial class tbl_washed
 
     public int? idService { get; set; }
 
+    public int? idEncargado { get; set; }
+
     public virtual tbl_client? idClientNavigation { get; set; }
+
+    public virtual tbl_encargado? idEncargadoNavigation { get; set; }
 
     public virtual tbl_enterprice? idEnterpriceNavigation { get; set; }
 

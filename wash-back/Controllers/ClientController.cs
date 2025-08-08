@@ -19,64 +19,35 @@ namespace wash_back.Controllers
         {
             _clientService = service;
         }
-        [HttpGet("Get/{id}")]
+        [HttpGet("Get")]
         public async Task<IActionResult> GetClient([FromBody] ClientFilterDto clientFilters)
         {
-            var role = User.FindFirst(ClaimTypes.Role)?.Value;
-            var idEnterpriceClaim = User.FindFirst("idEmpresa")?.Value;
-
-            if (role != "1" && string.IsNullOrEmpty(idEnterpriceClaim))
-            {
-                return Unauthorized(new
-                {
-                    message = "Usuario sin empresa",
-                    status = 401,
-                    success = false,
-                });
-            }
-
-            idEnterpriceClaim = role == "1" ? "0" : idEnterpriceClaim;
-            List<Cliente> clientes = await _clientService.GetClient(clientFilters, int.Parse(idEnterpriceClaim));
-            if (clientes.Any())
-            {
-                return Ok(new
-                {
-                    data = clientes,
-                    message = "Consulta realizada correctamente",
-                    success = true,
-                    status = 200
-                });
-            }
-            else
-            {
-                return StatusCode(204, new
-                {
-                    data = clientes,
-                    message = "Consulta realizada correctamente",
-                    success = true,
-                    status = 204
-                });
-            }
+            var claims = User.Claims;
+            var result = await _clientService.GetClient(clientFilters, claims);
+            return StatusCode(result.StatusCode, result);
         }
+
         [HttpPost("Insert")]
         public async Task<IActionResult> Insert([FromBody] ClientDto client)
         {
-            bool success = await _clientService.InsertClient(client);
-            if (!success)
-            {
-                return BadRequest(new
-                {
-                    message = "No se ha insertado el registro",
-                    success = success,
-                    status = 400
-                });
-            }
-            return Ok(new
-            {
-                message = "Cliente insertado correctamente",
-                success = success,
-                status = 201
-            });
+            var claims = User.Claims;
+            var result = await _clientService.InsertClient(client, claims);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        [HttpPut("Update")]
+        public async Task<IActionResult> Update([FromBody] ClientUpdateDto client)
+        {
+            var claims = User.Claims;
+            var result = await _clientService.UpdateClient(client, claims);
+            return StatusCode(result.StatusCode, result);
+        }
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var claims = User.Claims;
+            var result = await _clientService.DeleteClient(id);
+            return StatusCode(result.StatusCode, result);
         }
     }
 }

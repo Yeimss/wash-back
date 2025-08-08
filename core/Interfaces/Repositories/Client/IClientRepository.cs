@@ -12,5 +12,7 @@ namespace core.Interfaces.Repositories.Client
     {
         Task<List<Cliente>> GetClient(ClientFilterDto clientFilters, int? idEnterprice);
         Task<int> InsertClient(ClientDto client);
+        Task<bool> UpdateClient(ClientUpdateDto client);
+        Task<bool> DeleteClient(int id);
     }
 }
