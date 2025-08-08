@@ -67,6 +67,13 @@ namespace core.Services.Client
             }
 
             client.Placa = client.Placa.ToUpper();
+
+            var existeCliente = await _clientRepository.GetClient(new ClientFilterDto{Placa = client.Placa}, client.IdEnterprice);
+
+            if (existeCliente.Any())
+            {
+                return ResultDto.FailResult("Ya tienes registrado un cliente con esa placa");
+            }
             int cantAfectada = await _clientRepository.InsertClient(client);
             string mensaje = cantAfectada > 0 ? "Insertado correctamente" : "No se pudo insertar el registro";
             int statusCode = cantAfectada > 0 ? 200 : 400;
@@ -98,6 +105,14 @@ namespace core.Services.Client
             }
 
             client.Placa = client.Placa.ToUpper();
+
+            var existeCliente = await _clientRepository.GetClient(new ClientFilterDto { Placa = client.Placa }, client.IdEnterprice);
+
+            if (existeCliente.Any())
+            {
+                return ResultDto.FailResult("Ya tienes registrado un cliente con esa placa");
+            }
+
             bool actualizado = await _clientRepository.UpdateClient(client);
             string mensaje = !actualizado ? "No se pudo actualizar el registro" : "Actualizado correctamente";
             return ResultDto.SuccessResult(message: mensaje, statusCode: 400);
