@@ -5,8 +5,7 @@ namespace core.Interfaces.Repositories.Services
 {
     public interface IServicesRepository
     {
-
-        Task<Service> GetServices();
+        Task<Service> GetService(int id);
         Task<List<Service>> GetServices(ServiceFiltersDto filters);
         Task<bool> InsertService(ServiceDto service);
         Task<bool> UpdateService(ServiceUpdateDto service);
