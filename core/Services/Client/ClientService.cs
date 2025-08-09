@@ -13,8 +13,6 @@ namespace core.Services.Client
         {
             _clientRepository = clientRepository;
         }
-
-
         public async Task<ResultDto> GetClient(ClientFilterDto clientFilters, IEnumerable<Claim> claims)
         {
             var roleClaim = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
