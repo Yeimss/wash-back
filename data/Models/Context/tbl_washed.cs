@@ -19,6 +19,10 @@ public partial class tbl_washed
 
     public bool? isPaid { get; set; }
 
+    public DateTime? admissionDate { get; set; }
+
+    public DateTime? departureDate { get; set; }
+
     public virtual tbl_client? idClientNavigation { get; set; }
 
     public virtual tbl_encargado? idEncargadoNavigation { get; set; }

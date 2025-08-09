@@ -140,6 +140,12 @@ public partial class LavaderoBDContext : DbContext
 
             entity.ToTable("tbl_washed");
 
+            entity.Property(e => e.admissionDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("smalldatetime");
+            entity.Property(e => e.departureDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("smalldatetime");
             entity.Property(e => e.isPaid).HasDefaultValue(false);
             entity.Property(e => e.isWashed).HasDefaultValue(false);
 
