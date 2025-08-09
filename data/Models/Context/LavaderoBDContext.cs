@@ -6,10 +6,6 @@ namespace data.Models.Context;
 
 public partial class LavaderoBDContext : DbContext
 {
-    public LavaderoBDContext()
-    {
-    }
-
     public LavaderoBDContext(DbContextOptions<LavaderoBDContext> options)
         : base(options)
     {
@@ -143,6 +139,9 @@ public partial class LavaderoBDContext : DbContext
             entity.HasKey(e => e.id).HasName("PK__tbl_wash__3213E83FFD3B6F07");
 
             entity.ToTable("tbl_washed");
+
+            entity.Property(e => e.isPaid).HasDefaultValue(false);
+            entity.Property(e => e.isWashed).HasDefaultValue(false);
 
             entity.HasOne(d => d.idClientNavigation).WithMany(p => p.tbl_washeds)
                 .HasForeignKey(d => d.idClient)

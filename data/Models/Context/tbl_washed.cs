@@ -15,6 +15,10 @@ public partial class tbl_washed
 
     public int? idEncargado { get; set; }
 
+    public bool? isWashed { get; set; }
+
+    public bool? isPaid { get; set; }
+
     public virtual tbl_client? idClientNavigation { get; set; }
 
     public virtual tbl_encargado? idEncargadoNavigation { get; set; }
