@@ -7,7 +7,10 @@ namespace core.Interfaces.Repositories.Services
     {
 
         Task<Service> GetServices();
-        Task<Service> GetService(int id);
-        Task<Service> InsertService(ServiceDto service);
+        Task<List<Service>> GetServices(ServiceFiltersDto filters);
+        Task<bool> InsertService(ServiceDto service);
+        Task<bool> UpdateService(ServiceUpdateDto service);
+        Task<bool> DeleteService(int it);
+        Task<List<ServiceCategoryDto>> GetServicesCategory();
     }
 }
