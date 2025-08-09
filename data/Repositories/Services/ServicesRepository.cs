@@ -46,7 +46,7 @@ namespace data.Repositories.Services
                 .Where(s =>
                 (
                     (filters.Id != null && s.id == filters.Id) || filters.Id == null)
-                    && s.idEnterprice == filters.IdEnterprice
+                    && ((filters.IdEnterprice != 0 && s.idEnterprice == filters.IdEnterprice) || filters.IdEnterprice == 0)
                 )
                 .Select(servicio => new Service
                 {
@@ -60,7 +60,7 @@ namespace data.Repositories.Services
                 })
                 .ToList();
 
-            if (!servicio.Any())
+            if (servicio == null)
             {
                 return null;
             }
@@ -83,19 +83,25 @@ namespace data.Repositories.Services
         }
         public async Task<bool> UpdateService(ServiceUpdateDto service)
         {
-            var servicio = await _context.tbl_services.FindAsync(service.Id);
-            if (servicio == null)
+            try
             {
-                return false;
+                var servicio = await _context.tbl_services.FindAsync(service.Id);
+                if (servicio == null)
+                {
+                    return false;
+                }
+                servicio.price = service.Price;
+                servicio.idEnterprice = service.idEnterprice;
+                servicio.description = service.Description;
+                servicio.idCategory = servicio.idCategory;
+                _context.tbl_services.Update(servicio);
+                await _context.SaveChangesAsync();
+                return true;
             }
-            servicio.id = service.Id;
-            servicio.price = service.Price;
-            servicio.idEnterprice = service.Price;
-            servicio.description = service.Description;
-            servicio.idCategory = servicio.idCategory;
-            _context.tbl_services.Update(servicio);
-            await _context.SaveChangesAsync();
-            return true;
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
         public async Task<bool> DeleteService(int id)
         {
