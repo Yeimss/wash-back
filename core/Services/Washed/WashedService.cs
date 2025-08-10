@@ -1,23 +1,22 @@
-﻿using core.Entities.Wash;
+﻿using core.Entities.Cliente;
+using core.Interfaces.Repositories.Client;
 using core.Interfaces.Repositories.Washed;
 using core.Interfaces.Services.Washed;
+using DTOs.Client;
 using DTOs.Result;
 using DTOs.Washed;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace core.Services.Washed
 {
     public class WashedService : IWashedService
     {
         private readonly IWashedRepository _washedRepository;
-        public WashedService(IWashedRepository washedService)
+        private readonly IClientRepository _clientRepository;
+        public WashedService(IWashedRepository washedService, IClientRepository clientRepository)
         {
             _washedRepository = washedService;
+            _clientRepository = clientRepository;
         }
 
         public async Task<ResultDto> Get(int id, IEnumerable<Claim> claims)
@@ -86,6 +85,24 @@ namespace core.Services.Washed
                 if (wash.IdEnterprice == null)
                 {
                     return ResultDto.FailResult("Debes insertar el id de la empresa", 400);
+                }
+            }
+
+            var clienteList = await _clientRepository.GetClient(new ClientFilterDto { Id = wash.IdClient }, idEnterprice: wash.IdEnterprice);
+            if(!clienteList.Any())
+            {
+                return ResultDto.FailResult("El cliente no existe", 400);
+            }
+            var cliente = clienteList.FirstOrDefault();
+
+            WashedFiltersDto filtros = new WashedFiltersDto { IdEnterprice = wash.IdEnterprice, Placa = cliente.placa };
+            var lavadasCliente = await _washedRepository.GetWashed(filtros);
+            if (lavadasCliente != null)
+            {
+                var lavadasActivas = lavadasCliente.Where(l => !(l.IsPaid ?? false) || !(l.IsWashed ?? false)).ToList();
+                if (lavadasActivas.Any())
+                {
+                    return ResultDto.FailResult("El usuario ya tiene una lavada activa");
                 }
             }
 
