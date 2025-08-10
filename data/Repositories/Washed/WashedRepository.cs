@@ -66,8 +66,8 @@ namespace data.Repositories.Washed
                 .ThenInclude(s => s.idCategoryNavigation)
             .AsQueryable();
 
-            if (!string.IsNullOrEmpty(filters.IdEnterprice))
-                query = query.Where(w => w.idEnterprice.ToString() == filters.IdEnterprice);
+
+            query = query.Where(w => w.idEnterprice == filters.IdEnterprice);
 
             if (filters.IsWashed.HasValue)
                 query = query.Where(w => w.isWashed == filters.IsWashed.Value);
@@ -136,7 +136,11 @@ namespace data.Repositories.Washed
             lavada.idEnterprice = wash.IdEnterprice;
             lavada.idEncargado = wash.IdEncargado;
             lavada.idService = wash.IdService;
-            _context.tbl_washeds.Remove(lavada);
+            if ((wash.IsWashed ?? false) && (wash.IsPaid ?? false))
+            {
+                lavada.departureDate = DateTime.Now;
+            }
+            _context.tbl_washeds.Update(lavada);
             await _context.SaveChangesAsync();
             return true;
         }
