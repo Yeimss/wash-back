@@ -74,6 +74,9 @@ namespace data.Repositories.Washed
 
             if (filters.IsPaid.HasValue)
                 query = query.Where(w => w.isPaid == filters.IsPaid.Value);
+            
+            if (!string.IsNullOrEmpty(filters.Placa))
+                query = query.Where(w => w.idClientNavigation.placa.ToLower() == filters.Placa.ToLower());
 
 
             var lavadas = await query
