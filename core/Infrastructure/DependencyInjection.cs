@@ -1,7 +1,9 @@
-﻿using core.Interfaces.Services.IAuthService;
+﻿using core.Interfaces.Services.Attendant;
+using core.Interfaces.Services.IAuthService;
 using core.Interfaces.Services.IClientService;
 using core.Interfaces.Services.IServicesService;
 using core.Interfaces.Services.Washed;
+using core.Services.Attendant;
 using core.Services.Auth;
 using core.Services.Client;
 using core.Services.Services;
@@ -16,7 +18,8 @@ public static class DependencyInjection
         services.AddScoped<IClientService, ClientService>();
         services.AddScoped<IServicesService, ServicesService>();
         services.AddScoped<IWashedService, WashedService>();
-        
+        services.AddScoped<IAttendantService, AttendantService>();
+
 
         return services;
     }

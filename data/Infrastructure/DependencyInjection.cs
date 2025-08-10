@@ -10,6 +10,8 @@ using core.Interfaces.Repositories.Client;
 using data.Repositories.Client;
 using core.Interfaces.Repositories.Washed;
 using data.Repositories.Washed;
+using data.Repositories.Attendant;
+using core.Interfaces.Repositories.Attendant;
 
 namespace data.Infrastructure
 {
@@ -29,6 +31,7 @@ namespace data.Infrastructure
             services.AddScoped<IServicesRepository, ServicesRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IWashedRepository, WashedRepository>();
+            services.AddScoped<IAttendantRepository, AttendantRespository>();
             services.AddScoped<IJwtGenerator, JwtGenerator>();
 
             return services;
