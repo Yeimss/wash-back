@@ -8,5 +8,9 @@ namespace core.Entities.Attendand
 {
     public class Encargado
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int IdEnterprice { get; set; }
+        public string Enterprice { get; set; }
     }
 }
