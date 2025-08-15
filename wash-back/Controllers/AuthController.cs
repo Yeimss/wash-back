@@ -21,13 +21,8 @@ namespace wash_back.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginUserDto user)
         {
-            string? token = await _service.Login(user);
-            return Ok(new
-            {
-                token = token,
-                message = !token.IsNullOrEmpty() ? "Se inició sesión con exito" : "Credenciales incorrectas",
-                success = !token.IsNullOrEmpty() ? true : false
-            });
+            var result = await _service.Login(user);
+            return StatusCode(result.StatusCode, result);
         }
         [AllowAnonymous]
         [HttpPost("CreateUser")]

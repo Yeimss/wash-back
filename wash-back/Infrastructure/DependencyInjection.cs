@@ -32,6 +32,16 @@ namespace wash_back.Infrastructure
                 };
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowMobileApp", policy =>
+                {
+                    policy
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
